@@ -53,13 +53,13 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static char *tags[] = {"", "", "", "", ""};
+static char *tags[] = {"  ", " ", " ", " ", " "};
 
 static const char* eww[] = { "eww", "open" , "eww", NULL };
 
 static const Launcher launchers[] = {
     /* command     name to display */
-    { eww,         "" },
+    { eww,         "" },
 };
 
 static const int tagschemes[] = {
@@ -111,7 +111,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod4Mask
+#define MODKEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
     { MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
     { MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -122,28 +122,38 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
+static const char *upvol[]          = { "/usr/bin/pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",     NULL };
+static const char *downvol[]        = { "/usr/bin/pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",     NULL };
+static const char *mutevol[]        = { "/usr/bin/pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle",  NULL };
 
 static Key keys[] = {
     /* modifier                         key         function        argument */
 
     // brightness and audio 
-    {0,                     XF86XK_AudioMute,       spawn,          SHCMD("pamixer -t")},
-    {0,              XF86XK_AudioRaiseVolume,       spawn,          SHCMD("pamixer -i 5")},
-    {0,              XF86XK_AudioLowerVolume,       spawn,          SHCMD("pamixer -d 5")},
+    {0,                     XF86XK_AudioMute,       spawn,          {.v = mutevol }},
+    {0,              XF86XK_AudioRaiseVolume,       spawn,          {.v = upvol }},
+    {0,              XF86XK_AudioLowerVolume,       spawn,          {.v = downvol }},
     {0,              XF86XK_MonBrightnessDown,      spawn,          SHCMD("xbacklight -dec 5")},
     {0,              XF86XK_MonBrightnessUp,        spawn,          SHCMD("xbacklight -inc 5")},
 
-    // screenshot fullscreen and cropped
-    {MODKEY|ControlMask,                XK_u,       spawn,
-        SHCMD("maim | xclip -selection clipboard -t image/png")},
-    {MODKEY,                            XK_u,       spawn,
-        SHCMD("maim --select | xclip -selection clipboard -t image/png")},
-
+    {MODKEY|ControlMask,            XK_u,         spawn, SHCMD("flameshot gui")},
+    {MODKEY,                        XK_u,         spawn, SHCMD("flameshot full -p ~/Pictures/screenshots")},
+    {MODKEY,                        XK_w,         spawn, SHCMD("$BROWSER")},
+    {MODKEY,                        XK_semicolon, spawn, SHCMD("skippy-xd")},
+    {MODKEY|ShiftMask,              XK_p,         spawn, SHCMD("passmenu -c -l 10")},
+    {MODKEY|ShiftMask|ControlMask,  XK_p,         spawn, SHCMD("otpmenu -c -l 10")},
+    {MODKEY,                        XK_F1,        spawn, SHCMD("msi-rgb-switch")},
+    {MODKEY,                        XK_F2,        spawn, SHCMD("screenkey -s small --scr 1 -p fixed -g 300x50+800+950 --opacity .8 --font-color white")},
+    {MODKEY,                        XK_F3,        spawn, SHCMD("killall screenkey")},
+    {MODKEY|ControlMask|ShiftMask,  XK_y,         spawn, SHCMD("ytfzf -D")},
+    {MODKEY|ShiftMask,              XK_b,         spawn, SHCMD("feh --bg-fill --randomize ~/Pictures/wallpapers/* &") },
+    {MODKEY|ControlMask|ShiftMask,  XK_z,         spawn, SHCMD("rofi -show p -modi p:rofi-power-menu")},
+    {MODKEY,                        XK_v,         spawn, SHCMD("connect-boom")},
+    {MODKEY|ShiftMask,              XK_v,         spawn, SHCMD("rfkill block bluetooth")},
+    {MODKEY|ControlMask,            XK_l,         spawn, SHCMD("betterlockscreen -l dimblur")},
 
     { MODKEY,                           XK_c,       spawn,          SHCMD("rofi -show drun") },
     { MODKEY,                           XK_Return,  spawn,          SHCMD("st")},
-    // { MODKEY,                           XK_Return, spawn,            SHCMD("st_pad && st")},
-    
 
     // toggle stuff
     { MODKEY,                           XK_b,       togglebar,      {0} },
@@ -194,7 +204,6 @@ static Key keys[] = {
 
     { MODKEY|ControlMask|ShiftMask,     XK_d,       defaultgaps,    {0} },
 
-
     // layout
     { MODKEY,                           XK_t,       setlayout,      {.v = &layouts[0]} },
     { MODKEY|ShiftMask,                 XK_f,       setlayout,      {.v = &layouts[1]} },
@@ -212,8 +221,8 @@ static Key keys[] = {
     { MODKEY|ShiftMask,                 XK_period,  tagmon,         {.i = +1 } },
 
     // change border size
-    { MODKEY|ShiftMask,                 XK_minus,   setborderpx,    {.i = -1 } },
-    { MODKEY|ShiftMask,                 XK_p,       setborderpx,    {.i = +1 } },
+    { MODKEY|ControlMask|ShiftMask,     XK_minus,   setborderpx,     {.i = -1 } },
+    { MODKEY|ControlMask|ShiftMask,     XK_equal,   setborderpx,     {.i = +1 } },
     { MODKEY|ShiftMask,                 XK_w,       setborderpx,    {.i = default_border } },
 
     // kill dwm
