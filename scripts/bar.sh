@@ -92,7 +92,6 @@ vol() {
   fi
 }
 
-
 #clock() {
 #	printf "^c$black^ ^b$darkblue^ 󱑆 "
 #	printf "^c$black^^b$blue^ $(date '+%I:%M %p')  "

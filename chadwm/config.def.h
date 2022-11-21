@@ -57,7 +57,7 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static char *tags[] = {"  ", " ", " ", " ", " "};
+static char *tags[] = {"  ", " ", " ", " ", " "};
 
 static const char* eww[] = { "eww", "open" , "eww", NULL };
 
@@ -158,6 +158,10 @@ static Key keys[] = {
     {MODKEY,                        XK_F3,        spawn, SHCMD("killall screenkey")},
     {MODKEY|ControlMask|ShiftMask,  XK_y,         spawn, SHCMD("ytfzf -D")},
     {MODKEY|ShiftMask,              XK_b,         spawn, SHCMD("feh --bg-fill --randomize ~/Pictures/wallpapers/* &") },
+    // {MODKEY|ControlMask|ShiftMask,  XK_a,         spawn, SHCMD("feh --bg-max --randomize ~/.config/bec/zzmix/* &") },
+    // {MODKEY|ControlMask|ShiftMask,  XK_b,         spawn, SHCMD("feh --bg-max --randomize ~/.config/bec/zzcropped/**/* &") },
+    // {MODKEY|ControlMask|ShiftMask,  XK_c,         spawn, SHCMD("feh --bg-max --randomize ~/.config/bec/zzitc/* &") },
+    {MODKEY|ControlMask|ShiftMask,  XK_c,         spawn, SHCMD("feh --bg-max --randomize ~/.config/bec/* &") },
     {MODKEY|ControlMask|ShiftMask,  XK_z,         spawn, SHCMD("rofi -show p -modi p:rofi-power-menu")},
     {MODKEY,                        XK_v,         spawn, SHCMD("connect-boom")},
     {MODKEY|ShiftMask,              XK_v,         spawn, SHCMD("rfkill block bluetooth")},
