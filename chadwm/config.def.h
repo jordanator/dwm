@@ -25,14 +25,20 @@ static const double inactiveopacity = 0.875f;   /* Window opacity when it's inac
 static       Bool bUseOpacity       = True;     /* Starts with opacity on any unfocused windows */
 static const int horizpadbar        = 5;
 static const int vertpadbar         = 11;
-static const int vertpadtab         = 33;
+static const int vertpadtab         = 35;
 static const int horizpadtabi       = 15;
 static const int horizpadtabo       = 15;
 static const int scalepreview       = 4;
 static const int tag_preview        = 0;        /* 1 means enable, 0 is off */
 static const int colorfultag        = 1;        /* 0 means use SchemeSel for selected non vacant tag */
 
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:style:medium:size=10",
+#define ICONSIZE 19   /* icon size */
+#define ICONSPACING 8 /* space between icon and title */
+
+// static const char *fonts[]          = {"Iosevka:style:medium:size=12" ,"JetBrainsMono Nerd Font:style:medium:size=11",
+//                                         "Material Design Icons Desktop:size=11" };
+
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:style:medium:size=11",
                                         "Material Design Icons-Regular:size=10" };
 
 // theme
@@ -42,6 +48,7 @@ static const char *colors[][3]      = {
     /*                     fg       bg      border */
     [SchemeNorm]       = { gray3,   black,  gray2 },
     [SchemeSel]        = { gray4,   blue,   blue  },
+    [SchemeTitle]      = { white,   black,  black  }, // active window title
     [TabSel]           = { blue,    gray2,  black },
     [TabNorm]          = { gray3,   black,  black },
     [SchemeTag]        = { gray3,   black,  black },
@@ -118,6 +125,7 @@ static const Layout layouts[] = {
     { "|M|",      centeredmaster },
     { ">M>",      centeredfloatingmaster },
     { "><>",      NULL },    /* no layout function means floating behavior */
+    { NULL,       NULL },
 };
 
 /* key definitions */
@@ -145,7 +153,6 @@ static Key keys[] = {
     {0,              XF86XK_AudioLowerVolume,       spawn,          {.v = downvol }},
     {0,              XF86XK_MonBrightnessDown,      spawn,          SHCMD("xbacklight -dec 5")},
     {0,              XF86XK_MonBrightnessUp,        spawn,          SHCMD("xbacklight -inc 5")},
-
 	  { MODKEY,                       XK_a,         toggleopacity,  {0} },
     {MODKEY|ControlMask,            XK_u,         spawn, SHCMD("flameshot gui")},
     {MODKEY,                        XK_u,         spawn, SHCMD("flameshot full -p ~/Pictures/screenshots")},
@@ -169,7 +176,6 @@ static Key keys[] = {
 
     { MODKEY,                           XK_c,       spawn,          SHCMD("rofi -show drun") },
     { MODKEY,                           XK_Return,  spawn,          SHCMD("st")},
-
     // toggle stuff
     { MODKEY,                           XK_b,       togglebar,      {0} },
     { MODKEY|ControlMask,               XK_t,       togglegaps,     {0} },
@@ -241,13 +247,13 @@ static Key keys[] = {
     { MODKEY|ShiftMask,                 XK_w,       setborderpx,    {.i = default_border } },
 
     // kill dwm
-    { MODKEY|ControlMask,               XK_q,       quit,           {0} },
+    { MODKEY|ControlMask,               XK_q,       spawn,        SHCMD("killall bar.sh dwm") },
 
     // kill window
     { MODKEY,                           XK_q,       killclient,     {0} },
 
     // restart
-    { MODKEY|ShiftMask,                 XK_r,       quit,           {1} },
+    { MODKEY|ShiftMask,                 XK_r,       restart,           {0} },
 
     // hide & restore windows
     { MODKEY,                           XK_e,       hidewin,        {0} },
@@ -278,7 +284,7 @@ static Button buttons[] = {
 
     /* placemouse options, choose which feels more natural:
     *    0 - tiled position is relative to mouse cursor
-    *    1 - tiled postiion is relative to window center
+    *    1 - tiled position is relative to window center
     *    2 - mouse pointer warps to window center
     *
     * The moveorplace uses movemouse or placemouse depending on the floating state
