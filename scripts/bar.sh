@@ -22,7 +22,7 @@ pkg_updates() {
     updates=$(checkupdates | wc -l)
 
 	if [ "$updates" -eq "0" ]; then
-		printf "^c$green^  Fully Updated"
+		printf ""
     elif [ "$updates" -eq "1" ]; then
 		printf "^c$green^  $updates"" update"
 	else
