@@ -174,11 +174,11 @@ static const Key keys[] = {
     // {MODKEY|ControlMask|ShiftMask,  XK_a,         spawn, SHCMD("feh --bg-max --randomize ~/.config/bec/zzmix/* &") },
     // {MODKEY|ControlMask|ShiftMask,  XK_b,         spawn, SHCMD("feh --bg-max --randomize ~/.config/bec/zzcropped/**/* &") },
     // {MODKEY|ControlMask|ShiftMask,  XK_c,         spawn, SHCMD("feh --bg-max --randomize ~/.config/bec/zzitc/* &") },
-    {MODKEY|ControlMask|ShiftMask,  XK_c,         spawn, SHCMD("feh --bg-max --randomize ~/.config/bec/* &") },
     {MODKEY|ControlMask|ShiftMask,  XK_z,         spawn, SHCMD("rofi -show p -modi p:rofi-power-menu")},
     {MODKEY,                        XK_v,         spawn, SHCMD("connect-boom")},
     {MODKEY|ShiftMask,              XK_v,         spawn, SHCMD("rfkill block bluetooth")},
-    {MODKEY|ControlMask,            XK_l,         spawn, SHCMD("betterlockscreen -l dimblur")},
+    // {MODKEY|ControlMask,            XK_l,         spawn, SHCMD("betterlockscreen -l dimblur")},
+    {MODKEY|ControlMask,            XK_l,         spawn, SHCMD("betterlockscreen -u ~/Pictures/wallpapers -l dimblur")},
 
     { MODKEY,                           XK_c,       spawn,          SHCMD("rofi -show drun") },
     { MODKEY,                           XK_Return,  spawn,          SHCMD("st")},
