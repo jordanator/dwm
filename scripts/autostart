@@ -4,5 +4,5 @@ xrdb merge ~/.Xresources &
 xbacklight -set 20 &
 
 # run bar script and dwm ( do not remove this )
-bash ~/.config/chadwm/scripts/./bar.sh &
+#bash ~/.config/dwm/scripts/./bar.sh &
 dwm
